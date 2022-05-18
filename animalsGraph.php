@@ -25,11 +25,11 @@ $animalsToFr = array(
   "chinchilla" => "Chinchilla",
 );
 
-function validate($data){
-  return $data[1] >= 0 and $data[1] <= 123;
-}
-
 if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
+
+  include("jpgraph-4.4.1/src/jpgraph.php");
+  include("jpgraph-4.4.1/src/jpgraph_pie.php");
+
   $entries_amount = 0;
   $age_total = 0;
   $age_min = 123;
@@ -60,6 +60,10 @@ if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
     "chinchilla" => 0,
   );
 
+  function validate($data){
+    return $data[1] >= 0 and $data[1] <= 123;
+  }
+
   while (($data = fgetcsv($handle)) !== FALSE) {
     if(validate($data) and isset($colorsNums[$data[2]]) or isset($_GET["ignoredVerif"])){
       $age_total += $data[1];
@@ -79,18 +83,22 @@ if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
   }
   fclose($handle);
 
-  arsort($colorsNums);
-  arsort($animalNums);
+  $tableau = [];
+  $legends = [];
+  
+  foreach($animalNums as $key => $value){
+    if($value!==0){
+      array_push($tableau, round($value/$hasAnimalNumber*100));
+      array_push($legends, $animalsToFr[$key]);
+    }
+  }
 
-  echo "Voici quelques chiffres intéressant sur l'age de nos utilisateurs :<br>";
-  echo "L'age moyen est de : " . round($age_total/$entries_amount, 1) . "ans . <br>";
-  echo "L'age minimum est de : " . round($age_min) . "ans.<br>";
-  echo "L'age maximum est de : " . round($age_max) . "ans.<br>";
-
-  echo "<br>Voici un graphique des couleurs préférés de nos utilisateurs :<br>";
-  echo "<img src='./colorsGraph.php'/>";
-
-  echo "<br>Voici quelques informations sur les animaux de compagnie de nos utilisateurs :<br>";
-  echo round($hasAnimalNumber/$entries_amount*100) . "% de nos utilisateurs possèdent un animal de compagnie.<br>Voici un classement de leurs animaux préférés :<br>";
-  echo "<img src='./animalsGraph.php'/>";
+  $diagram = new PieGraph(400,350);
+  $cercle = new PiePlot($tableau);
+  $cercle->SetCenter(0.4);
+  $cercle->SetValueType(PIE_VALUE_ABS);
+  $cercle->value->SetFormat("%d");
+  $cercle->SetLegends($legends);
+  $diagram->Add($cercle);
+  $diagram->Stroke();
 }

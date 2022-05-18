@@ -94,7 +94,6 @@ if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
   }
 
   $diagram = new PieGraph(400,350);
-  $diagram->title->Set("test");
   $cercle = new PiePlot($tableau);
   $cercle->SetCenter(0.4);
   $cercle->SetValueType(PIE_VALUE_ABS);
