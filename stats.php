@@ -87,10 +87,8 @@ if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
   echo "L'age minimum est de : " . round($age_min) . "ans.<br>";
   echo "L'age maximum est de : " . round($age_max) . "ans.<br>";
 
-  echo "<br>Voici un classement des couleurs préférés de nos utilisateurs :<br>";
-  foreach($colorsNums as $key => $value){
-    echo $colorsToFr[$key] . " : " . round($value/$entries_amount*100) . "%<br>";
-  }
+  echo "<br>Voici un graphique des couleurs préférés de nos utilisateurs :<br>";
+  echo "<img src='./colorsGraph.php'/>";
 
   echo "<br>Voici quelques informations sur les animaux de compagnie de nos utilisateurs :<br>";
   echo round($hasAnimalNumber/$entries_amount*100) . "% de nos utilisateurs possèdent un animal de compagnie.<br>Voici un classement de leurs animaux préférés :<br>";
