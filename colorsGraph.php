@@ -65,7 +65,7 @@ if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
   }
 
   while (($data = fgetcsv($handle)) !== FALSE) {
-    if(validate($data) and isset($colorsNums[$data[2]]) or isset($_GET["ignoredVerif"])){
+    if(validate($data) and isset($colorsNums[$data[2]])){
       $age_total += $data[1];
       $entries_amount += 1;
       if($age_min > $data[1]) $age_min = $data[1];
@@ -83,13 +83,13 @@ if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
   }
   fclose($handle);
 
-  $tableau = [];
-  $legends = [];
-  
+  $tableau = array();
+  $colors = array();
+
   foreach($colorsNums as $key => $value){
     if($value!==0){
       array_push($tableau, round($value/$entries_amount*100));
-      array_push($legends, $colorsToFr[$key]);
+      array_push($colors, $key);
     }
   }
 
@@ -98,7 +98,7 @@ if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
   $cercle->SetCenter(0.4);
   $cercle->SetValueType(PIE_VALUE_ABS);
   $cercle->value->SetFormat("%d");
-  $cercle->SetLegends($legends);
   $diagram->Add($cercle);
+  $cercle->SetSliceColors($colors);
   $diagram->Stroke();
 }

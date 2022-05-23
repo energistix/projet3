@@ -61,7 +61,7 @@ if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
   );
 
   while (($data = fgetcsv($handle)) !== FALSE) {
-    if(validate($data) and isset($colorsNums[$data[2]]) or isset($_GET["ignoredVerif"])){
+    if(validate($data) and isset($colorsNums[$data[2]])){
       $age_total += $data[1];
       $entries_amount += 1;
       if($age_min > $data[1]) $age_min = $data[1];
@@ -82,7 +82,7 @@ if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
   arsort($colorsNums);
   arsort($animalNums);
 
-  echo "Voici quelques chiffres intéressant sur l'age de nos utilisateurs :<br>";
+  echo "<h3>Voici quelques chiffres sur l'age de nos utilisateurs :</h3>";
   echo "L'age moyen est de : " . round($age_total/$entries_amount, 1) . "ans . <br>";
   echo "L'age minimum est de : " . round($age_min) . "ans.<br>";
   echo "L'age maximum est de : " . round($age_max) . "ans.<br>";
@@ -90,7 +90,7 @@ if (($handle = fopen("./stats.csv", "r")) !== FALSE) {
   echo "<br>Voici un graphique des couleurs préférés de nos utilisateurs :<br>";
   echo "<img src='./colorsGraph.php'/>";
 
-  echo "<br>Voici quelques informations sur les animaux de compagnie de nos utilisateurs :<br>";
+  echo "<br><h3>Voici quelques chiffres sur les animaux de compagnie de nos utilisateurs :</h3>";
   echo round($hasAnimalNumber/$entries_amount*100) . "% de nos utilisateurs possèdent un animal de compagnie.<br>Voici un classement de leurs animaux préférés :<br>";
   echo "<img src='./animalsGraph.php'/>";
 }

@@ -37,4 +37,5 @@
 
   <input type="submit" value="submit" />
 </form>
-<a href="./login">Click here if you want to connect to another account</a>
+<a href="./login">Cliquez ici pour vous connecter a un autre compte.</a><br>
+<a href="./stats.php">Cliquez ici pour voir les statistiques de nos utilisateurs.</a>
